@@ -18,7 +18,7 @@ def do_parse(file_path, url='http://127.0.0.1:8000/predict', **kwargs):
         response = requests.post(url, json={
             'file': to_b64(file_path),
             'kwargs': kwargs
-        })
+        }, timeout=60)
 
         if response.status_code == 200:
             output = response.json()

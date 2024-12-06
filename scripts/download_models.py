@@ -7,7 +7,7 @@ from modelscope import snapshot_download
 
 def download_json(url):
     # 下载JSON文件
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     response.raise_for_status()  # 检查请求是否成功
     return response.json()
 

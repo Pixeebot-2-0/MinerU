@@ -47,7 +47,7 @@ class UploadPdfView(Resource):
             params = json.loads(request.data)
             pdf_url = params.get('pdfUrl')
             try:
-                response = requests.get(pdf_url, stream=True)
+                response = requests.get(pdf_url, stream=True, timeout=60)
             except ConnectionError as e:
                 logger.error(traceback.format_exc())
                 return generate_response(code=400, msg="params is not valid", msgZh="参数错误，pdf链接无法访问")
