@@ -1,13 +1,12 @@
 import json
 import os
-
-import requests
 from modelscope import snapshot_download
+from security import safe_requests
 
 
 def download_json(url):
     # 下载JSON文件
-    response = requests.get(url)
+    response = safe_requests.get(url)
     response.raise_for_status()  # 检查请求是否成功
     return response.json()
 
