@@ -4,6 +4,7 @@ import io
 import requests
 
 from magic_pdf.data.io.base import IOReader, IOWriter
+from security import safe_requests
 
 
 class HttpReader(IOReader):
@@ -17,7 +18,7 @@ class HttpReader(IOReader):
         Returns:
             bytes: the content of the file
         """
-        return requests.get(url).content
+        return safe_requests.get(url).content
 
     def read_at(self, path: str, offset: int = 0, limit: int = -1) -> bytes:
         """Not Implemented."""

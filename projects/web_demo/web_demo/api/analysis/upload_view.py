@@ -1,7 +1,6 @@
 import json
 import time
 import traceback
-import requests
 from flask import request, current_app, url_for, send_from_directory
 from flask_restful import Resource
 from werkzeug.utils import secure_filename
@@ -11,6 +10,7 @@ from io import BytesIO
 from werkzeug.datastructures import FileStorage
 from common.custom_response import generate_response
 from loguru import logger
+from security import safe_requests
 
 
 class UploadPdfView(Resource):
@@ -47,7 +47,7 @@ class UploadPdfView(Resource):
             params = json.loads(request.data)
             pdf_url = params.get('pdfUrl')
             try:
-                response = requests.get(pdf_url, stream=True)
+                response = safe_requests.get(pdf_url, stream=True)
             except ConnectionError as e:
                 logger.error(traceback.format_exc())
                 return generate_response(code=400, msg="params is not valid", msgZh="参数错误，pdf链接无法访问")
