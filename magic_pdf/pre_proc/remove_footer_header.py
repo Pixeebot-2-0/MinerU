@@ -15,18 +15,18 @@ def remove_headder_footer_one_page(text_raw_blocks, image_bboxes, table_bboxes, 
     if len(header) == 0:
         model_header = header_bboxs
         if model_header:
-            x0 = min([x for x, _, _, _ in model_header])
-            y0 = min([y for _, y, _, _ in model_header])
-            x1 = max([x1 for _, _, x1, _ in model_header])
-            y1 = max([y1 for _, _, _, y1 in model_header])
+            x0 = min(x for x, _, _, _ in model_header)
+            y0 = min(y for _, y, _, _ in model_header)
+            x1 = max(x1 for _, _, x1, _ in model_header)
+            y1 = max(y1 for _, _, _, y1 in model_header)
             header = [x0, y0, x1, y1]
     if len(footer) == 0:
         model_footer = footer_bboxs
         if model_footer:
-            x0 = min([x for x, _, _, _ in model_footer])
-            y0 = min([y for _, y, _, _ in model_footer])
-            x1 = max([x1 for _, _, x1, _ in model_footer])
-            y1 = max([y1 for _, _, _, y1 in model_footer])
+            x0 = min(x for x, _, _, _ in model_footer)
+            y0 = min(y for _, y, _, _ in model_footer)
+            x1 = max(x1 for _, _, x1, _ in model_footer)
+            y1 = max(y1 for _, _, _, y1 in model_footer)
             footer = [x0, y0, x1, y1]
 
     header_y0 = 0 if len(header) == 0 else header[3]
@@ -35,8 +35,8 @@ def remove_headder_footer_one_page(text_raw_blocks, image_bboxes, table_bboxes, 
         top_part = [b for b in page_no_bboxs if b[3] < page_h / 2]
         btn_part = [b for b in page_no_bboxs if b[1] > page_h / 2]
 
-        top_max_y0 = max([b[1] for b in top_part]) if top_part else 0
-        btn_min_y1 = min([b[3] for b in btn_part]) if btn_part else page_h
+        top_max_y0 = max(b[1] for b in top_part) if top_part else 0
+        btn_min_y1 = min(b[3] for b in btn_part) if btn_part else page_h
 
         header_y0 = max(header_y0, top_max_y0)
         footer_y0 = min(footer_y0, btn_min_y1)

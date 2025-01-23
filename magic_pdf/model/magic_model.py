@@ -124,7 +124,7 @@ class MagicModel:
     def _bbox_distance(self, bbox1, bbox2):
         left, right, bottom, top = bbox_relative_pos(bbox1, bbox2)
         flags = [left, right, bottom, top]
-        count = sum([1 if v else 0 for v in flags])
+        count = sum(1 if v else 0 for v in flags)
         if count > 1:
             return float('inf')
         if left or right:
@@ -512,10 +512,10 @@ class MagicModel:
                         embed_arr.append(idx)
 
                 if len(embed_arr) > 0:
-                    embed_x0 = min([all_bboxes[idx]['bbox'][0] for idx in embed_arr])
-                    embed_y0 = min([all_bboxes[idx]['bbox'][1] for idx in embed_arr])
-                    embed_x1 = max([all_bboxes[idx]['bbox'][2] for idx in embed_arr])
-                    embed_y1 = max([all_bboxes[idx]['bbox'][3] for idx in embed_arr])
+                    embed_x0 = min(all_bboxes[idx]['bbox'][0] for idx in embed_arr)
+                    embed_y0 = min(all_bboxes[idx]['bbox'][1] for idx in embed_arr)
+                    embed_x1 = max(all_bboxes[idx]['bbox'][2] for idx in embed_arr)
+                    embed_y1 = max(all_bboxes[idx]['bbox'][3] for idx in embed_arr)
                     caption_areas.append(
                         int(abs(embed_x1 - embed_x0) * abs(embed_y1 - embed_y0))
                     )
@@ -546,17 +546,13 @@ class MagicModel:
 
             if len(subject_object_relation_map[i]) > 0:
                 x0 = min(
-                    [all_bboxes[j]['bbox'][0] for j in subject_object_relation_map[i]]
-                )
+                    all_bboxes[j]['bbox'][0] for j in subject_object_relation_map[i])
                 y0 = min(
-                    [all_bboxes[j]['bbox'][1] for j in subject_object_relation_map[i]]
-                )
+                    all_bboxes[j]['bbox'][1] for j in subject_object_relation_map[i])
                 x1 = max(
-                    [all_bboxes[j]['bbox'][2] for j in subject_object_relation_map[i]]
-                )
+                    all_bboxes[j]['bbox'][2] for j in subject_object_relation_map[i])
                 y1 = max(
-                    [all_bboxes[j]['bbox'][3] for j in subject_object_relation_map[i]]
-                )
+                    all_bboxes[j]['bbox'][3] for j in subject_object_relation_map[i])
                 result['object_body'] = [x0, y0, x1, y1]
                 result['all'] = [
                     min(x0, all_bboxes[i]['bbox'][0]),
@@ -668,7 +664,7 @@ class MagicModel:
                 )
                 left, right, bottom, top = bbox_relative_pos(bbox1, bbox2)
                 flags = [left, right, bottom, top]
-                if sum([1 if v else 0 for v in flags]) > 1:
+                if sum(1 if v else 0 for v in flags) > 1:
                     continue
 
                 if left:

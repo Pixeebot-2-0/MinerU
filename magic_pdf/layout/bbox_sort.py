@@ -56,7 +56,7 @@ def prepare_bboxes_for_layout_split(image_info, image_backup_info, table_info, i
     spilter_bboxes = get_spilter_of_page(page, [b['bbox'] for b in image_info]+[b['bbox'] for b in image_backup_info], [b['bbox'] for b in table_info], )
     # 还要去掉存在于spilter_bboxes里的text_block
     if len(spilter_bboxes) > 0:
-        text_block_new = [box for box in text_block_new if not any([_is_in_or_part_overlap(box[:4], spilter_bbox) for spilter_bbox in spilter_bboxes])]
+        text_block_new = [box for box in text_block_new if not any(_is_in_or_part_overlap(box[:4], spilter_bbox) for spilter_bbox in spilter_bboxes)]
         
     for bbox in text_block_new:
         all_bboxes.append([bbox[0], bbox[1], bbox[2], bbox[3], None, None, None, 'text', None, None, None, None]) 

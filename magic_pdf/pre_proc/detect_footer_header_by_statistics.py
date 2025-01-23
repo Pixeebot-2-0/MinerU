@@ -129,8 +129,8 @@ def __get_page_size(page_sizes:list):
     """
     页面大小可能不一样
     """
-    w = sum([w for w,h in page_sizes])/len(page_sizes)
-    h = sum([h for w,h  in page_sizes])/len(page_sizes)
+    w = sum(w for w,h in page_sizes)/len(page_sizes)
+    h = sum(h for w,h  in page_sizes)/len(page_sizes)
     return w, h
 
 def __calculate_iou(bbox1, bbox2):

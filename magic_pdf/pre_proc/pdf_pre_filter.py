@@ -28,7 +28,7 @@ def __is_contain_color_background_rect(page:fitz.Page, text_blocks, image_bboxes
                 continue
             # 为了防止是svg图片上的色块，这里过滤掉这类
             
-            if any([_is_in_or_part_overlap(rect, img_bbox) for img_bbox in image_bboxes]):
+            if any(_is_in_or_part_overlap(rect, img_bbox) for img_bbox in image_bboxes):
                 continue
             color_bg_rect.append(rect)
             

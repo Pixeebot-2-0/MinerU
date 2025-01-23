@@ -131,7 +131,7 @@ def remove_rotate_side_textblock(pymu_text_block, page_width, page_height):
         if not is_vbox_on_side(block_bbox, page_width, page_height, 0.2): # 保证这些box必须在页面的两边
            continue
         
-        if all([__is_a_word(line['spans'][0]["text"]) for line in lines if len(line['spans'])>0]) and len(lines)>1 and all([len(line['spans'])==1 for line in lines]):
+        if all(__is_a_word(line['spans'][0]["text"]) for line in lines if len(line['spans'])>0) and len(lines)>1 and all(len(line['spans'])==1 for line in lines):
             is_box_valign = (len(set([int(line['spans'][0]['bbox'][0] ) for line in lines if len(line['spans'])>0]))==1) and (len([int(line['spans'][0]['bbox'][0] ) for line in lines if len(line['spans'])>0])>1)  # 测试bbox在垂直方向是不是x0都相等，也就是在垂直方向排列.同时必须大于等于2个字
             
             if is_box_valign:
