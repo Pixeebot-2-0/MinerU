@@ -88,8 +88,8 @@ class BlockStatisticsCalculator:
 
         avg_font_size = sum(block_font_sizes) / len(block_font_sizes) if block_font_sizes else None
 
-        avg_dir_horizontal = sum([dir[0] for dir in block_directions]) / len(block_directions) if block_directions else 0
-        avg_dir_vertical = sum([dir[1] for dir in block_directions]) / len(block_directions) if block_directions else 0
+        avg_dir_horizontal = sum(dir[0] for dir in block_directions) / len(block_directions) if block_directions else 0
+        avg_dir_vertical = sum(dir[1] for dir in block_directions) / len(block_directions) if block_directions else 0
 
         median_font_size = float(np.median(block_font_sizes)) if block_font_sizes else None
 

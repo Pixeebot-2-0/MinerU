@@ -135,12 +135,12 @@ def check_text_block_horizontal_overlap(text_blocks: list, header, footer) -> bo
 
     def __max_y(lst: list):
         if len(lst) > 0:
-            return max([item[1] for item in lst])
+            return max(item[1] for item in lst)
         return page_min_y
 
     def __min_y(lst: list):
         if len(lst) > 0:
-            return min([item[3] for item in lst])
+            return min(item[3] for item in lst)
         return page_max_y
 
     clip_y0 = __max_y(header)

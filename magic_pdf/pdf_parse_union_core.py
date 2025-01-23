@@ -175,7 +175,7 @@ def parse_page_core(pdf_docs, magic_model, page_id, pdf_bytes_md5, imageWriter, 
         drop_reason.append(DropReason.CAN_NOT_DETECT_PAGE_LAYOUT)
 
     """以下去掉复杂的布局和超过2列的布局"""
-    if any([lay["layout_label"] == LAYOUT_UNPROC for lay in layout_bboxes]):  # 复杂的布局
+    if any(lay["layout_label"] == LAYOUT_UNPROC for lay in layout_bboxes):  # 复杂的布局
         logger.warning(
             f"skip this page, page_id: {page_id}, reason: {DropReason.COMPLICATED_LAYOUT}")
         need_drop = True

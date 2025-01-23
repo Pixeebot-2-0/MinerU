@@ -171,7 +171,7 @@ def classify_by_text_len(text_len_list: list, total_page: int):
     # 排除前后10页对只有21，22页的pdf很尴尬，如果选出来的中间那一两页恰好没字容易误判，有了avg_words规则，这个规则可以忽略
     page_num = np.random.choice(total_page, select_page_cnt, replace=False)
     text_len_lst = [text_len_list[i] for i in page_num]
-    is_text_pdf = any([text_len > TEXT_LEN_THRESHOLD for text_len in text_len_lst])
+    is_text_pdf = any(text_len > TEXT_LEN_THRESHOLD for text_len in text_len_lst)
     return is_text_pdf
 
 

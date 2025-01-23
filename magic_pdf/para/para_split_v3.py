@@ -29,10 +29,10 @@ def __process_blocks(blocks):
         if current_block['type'] == 'text':
             current_block["bbox_fs"] = copy.deepcopy(current_block["bbox"])
             if 'lines' in current_block and len(current_block["lines"]) > 0:
-                current_block['bbox_fs'] = [min([line['bbox'][0] for line in current_block['lines']]),
-                                            min([line['bbox'][1] for line in current_block['lines']]),
-                                            max([line['bbox'][2] for line in current_block['lines']]),
-                                            max([line['bbox'][3] for line in current_block['lines']])]
+                current_block['bbox_fs'] = [min(line['bbox'][0] for line in current_block['lines']),
+                                            min(line['bbox'][1] for line in current_block['lines']),
+                                            max(line['bbox'][2] for line in current_block['lines']),
+                                            max(line['bbox'][3] for line in current_block['lines'])]
             current_group.append(current_block)
 
         # 检查下一个块是否存在

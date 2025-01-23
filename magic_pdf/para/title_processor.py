@@ -913,18 +913,18 @@ class TitleProcessor:
                         for para_block in para_blocks:
                             new_block = self._detect_block_title(para_block)
                             new_para_blocks.append(new_block)
-                            num_titles += sum([line.get("is_title", 0) for line in new_block["lines"]])
+                            num_titles += sum(line.get("is_title", 0) for line in new_block["lines"])
                     else:  # All blocks are single line blocks.
                         for para_block in para_blocks:
                             new_para_blocks.append(para_block)
-                            num_titles += sum([line.get("is_title", 0) for line in para_block["lines"]])
+                            num_titles += sum(line.get("is_title", 0) for line in para_block["lines"])
                     para_blocks = new_para_blocks
 
                 blocks["para_blocks"] = para_blocks
 
                 for para_block in para_blocks:
                     all_titles = all(safe_get(line, "is_title", False) for line in para_block["lines"])
-                    para_text_len = sum([len(line["text"]) for line in para_block["lines"]])
+                    para_text_len = sum(len(line["text"]) for line in para_block["lines"])
                     if (
                         all_titles and para_text_len < 200
                     ):  # total length of the paragraph is less than 200, more than this should not be a title

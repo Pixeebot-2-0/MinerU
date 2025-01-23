@@ -123,11 +123,8 @@ def remove_text_block_overlap_interline_equation_bbox(
                 deleted_chars = []
                 for char in span["chars"]:
                     if any(
-                            [
-                                (calculate_overlap_area_2_minbox_area_ratio(eq_bbox["bbox"], char["bbox"]) > 0.5)
-                                for eq_bbox in interline_eq_bboxes
-                            ]
-                    ):
+                            (calculate_overlap_area_2_minbox_area_ratio(eq_bbox["bbox"], char["bbox"]) > 0.5)
+                                for eq_bbox in interline_eq_bboxes):
                         deleted_chars.append(char)
                 # 检查span里没有char则删除这个span
                 for char in deleted_chars:
@@ -137,10 +134,10 @@ def remove_text_block_overlap_interline_equation_bbox(
                     deleted_span.append(span)
                 else:
                     span["bbox"] = (
-                        min([b["bbox"][0] for b in span["chars"]]),
-                        min([b["bbox"][1] for b in span["chars"]]),
-                        max([b["bbox"][2] for b in span["chars"]]),
-                        max([b["bbox"][3] for b in span["chars"]]),
+                        min(b["bbox"][0] for b in span["chars"]),
+                        min(b["bbox"][1] for b in span["chars"]),
+                        max(b["bbox"][2] for b in span["chars"]),
+                        max(b["bbox"][3] for b in span["chars"]),
                     )
 
             # 检查这个span
@@ -150,10 +147,10 @@ def remove_text_block_overlap_interline_equation_bbox(
                 deleted_line.append(line)
             else:
                 line["bbox"] = (
-                    min([b["bbox"][0] for b in line["spans"]]),
-                    min([b["bbox"][1] for b in line["spans"]]),
-                    max([b["bbox"][2] for b in line["spans"]]),
-                    max([b["bbox"][3] for b in line["spans"]]),
+                    min(b["bbox"][0] for b in line["spans"]),
+                    min(b["bbox"][1] for b in line["spans"]),
+                    max(b["bbox"][2] for b in line["spans"]),
+                    max(b["bbox"][3] for b in line["spans"]),
                 )
 
         # 检查这个block是否可以删除
@@ -163,10 +160,10 @@ def remove_text_block_overlap_interline_equation_bbox(
             deleted_block.append(text_block)
         else:
             text_block["bbox"] = (
-                min([b["bbox"][0] for b in text_block["lines"]]),
-                min([b["bbox"][1] for b in text_block["lines"]]),
-                max([b["bbox"][2] for b in text_block["lines"]]),
-                max([b["bbox"][3] for b in text_block["lines"]]),
+                min(b["bbox"][0] for b in text_block["lines"]),
+                min(b["bbox"][1] for b in text_block["lines"]),
+                max(b["bbox"][2] for b in text_block["lines"]),
+                max(b["bbox"][3] for b in text_block["lines"]),
             )
 
     # 检查text block删除
@@ -295,9 +292,8 @@ def replace_line_v2(eqinfo, line):
 
     # 计算x方向上被删除区间内的char的真实x0, x1
     if len(delete_chars):
-        x0, x1 = min([b["bbox"][0] for b in delete_chars]), max(
-            [b["bbox"][2] for b in delete_chars]
-        )
+        x0, x1 = min(b["bbox"][0] for b in delete_chars), max(
+            b["bbox"][2] for b in delete_chars)
     else:
         # logger.debug(f"行内公式替换没有发生，尝试下一行匹配, eqinfo={eqinfo}")
         return False
@@ -352,7 +348,7 @@ def replace_line_v2(eqinfo, line):
         first_overlap_span["bbox"] = (
             first_overlap_span["bbox"][0],
             first_overlap_span["bbox"][1],
-            max([chr["bbox"][2] for chr in first_span_chars]),
+            max(chr["bbox"][2] for chr in first_span_chars),
             first_overlap_span["bbox"][3],
         )
         # first_overlap_span['_type'] = "first"
@@ -362,10 +358,10 @@ def replace_line_v2(eqinfo, line):
             line["spans"].remove(first_overlap_span)
 
     if len(tail_span_chars) > 0:
-        min_of_tail_span_x0 = min([chr["bbox"][0] for chr in tail_span_chars])
-        min_of_tail_span_y0 = min([chr["bbox"][1] for chr in tail_span_chars])
-        max_of_tail_span_x1 = max([chr["bbox"][2] for chr in tail_span_chars])
-        max_of_tail_span_y1 = max([chr["bbox"][3] for chr in tail_span_chars])
+        min_of_tail_span_x0 = min(chr["bbox"][0] for chr in tail_span_chars)
+        min_of_tail_span_y0 = min(chr["bbox"][1] for chr in tail_span_chars)
+        max_of_tail_span_x1 = max(chr["bbox"][2] for chr in tail_span_chars)
+        max_of_tail_span_y1 = max(chr["bbox"][3] for chr in tail_span_chars)
 
         if last_overlap_span == first_overlap_span:  # 这个时候应该插入一个新的
             tail_span_txt = "".join([char["c"] for char in tail_span_chars])
@@ -383,7 +379,7 @@ def replace_line_v2(eqinfo, line):
                 )
             else:
                 last_span_to_insert["bbox"] = (
-                    min([chr["bbox"][0] for chr in tail_span_chars]),
+                    min(chr["bbox"][0] for chr in tail_span_chars),
                     last_overlap_span["bbox"][1],
                     last_overlap_span["bbox"][2],
                     last_overlap_span["bbox"][3],
@@ -395,7 +391,7 @@ def replace_line_v2(eqinfo, line):
             last_overlap_span["chars"] = tail_span_chars
             last_overlap_span["text"] = "".join([char["c"] for char in tail_span_chars])
             last_overlap_span["bbox"] = (
-                min([chr["bbox"][0] for chr in tail_span_chars]),
+                min(chr["bbox"][0] for chr in tail_span_chars),
                 last_overlap_span["bbox"][1],
                 last_overlap_span["bbox"][2],
                 last_overlap_span["bbox"][3],

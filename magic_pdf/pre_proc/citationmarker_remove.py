@@ -91,7 +91,7 @@ def check_3(spans, cur_span_i):
     cur_span_txt = ''.join(c['c'] for c in spans[cur_span_i]['chars']).strip()
     bad_char = ['[', ']', '*', ',']
 
-    if any([c in cur_span_txt for c in bad_char]) and any(character.isdigit() for character in cur_span_txt):
+    if any(c in cur_span_txt for c in bad_char) and any(character.isdigit() for character in cur_span_txt):
         return True
 
     # 如2-3, a-b

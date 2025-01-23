@@ -74,8 +74,7 @@ def _horizontal_split(bboxes: list, boundary: tuple, avg_font_size=20) -> list:
             所以这里计算出最紧致的boundary，然后再计算mid_x
             """
             boundary_real_x0, boundary_real_x1 = min(
-                [bbox[X0_IDX] for bbox in all_bboxes]
-            ), max([bbox[X1_IDX] for bbox in all_bboxes])
+                bbox[X0_IDX] for bbox in all_bboxes), max(bbox[X1_IDX] for bbox in all_bboxes)
             mid_x = (boundary_real_x0 + boundary_real_x1) / 2
             # 检查这个box是否内容在中心线有交
             # 必须跨过去2个字符的宽度
@@ -123,12 +122,9 @@ def _horizontal_split(bboxes: list, boundary: tuple, avg_font_size=20) -> list:
                 # 然后采用一种比较粗糙的方法，看min_x0，max_x1是否与位于[bound_x0, last_h_sp, bound_x1, bbox[Y0_IDX]]之间的box有相交
 
                 if not any(
-                    [
-                        b[X0_IDX] <= min_x0 - 1 <= b[X1_IDX]
+                    b[X0_IDX] <= min_x0 - 1 <= b[X1_IDX]
                         or b[X0_IDX] <= max_x1 + 1 <= b[X1_IDX]
-                        for b in bbox_in_bound_check
-                    ]
-                ):
+                        for b in bbox_in_bound_check):
                     # 其上，下都不能被扩展成行，暂时只检查一下上方 TODO
                     top_nearest_bbox = find_all_top_bbox_direct(bbox, bboxes)
                     bottom_nearest_bbox = find_all_bottom_bbox_direct(bbox, bboxes)
@@ -227,9 +223,9 @@ def _horizontal_split(bboxes: list, boundary: tuple, avg_font_size=20) -> list:
             continue
         x0, y0, x1, y1 = (
             bound_x0,
-            min([bbox[Y0_IDX] for bbox in bboxes_in_block]),
+            min(bbox[Y0_IDX] for bbox in bboxes_in_block),
             bound_x1,
-            max([bbox[Y1_IDX] for bbox in bboxes_in_block]),
+            max(bbox[Y1_IDX] for bbox in bboxes_in_block),
         )
         h_layouts.append([x0, y0, x1, y1, LAYOUT_UNPROC])
 
@@ -278,18 +274,16 @@ def _vertical_align_split_v1(bboxes: list, boundary: tuple) -> list:
         left_edge_bboxes = get_left_edge_bboxes(all_bboxes)
         if len(left_edge_bboxes) == 0:
             break
-        right_split_line_x1 = max([bbox[X1_IDX] for bbox in left_edge_bboxes]) + 1
+        right_split_line_x1 = max(bbox[X1_IDX] for bbox in left_edge_bboxes) + 1
         # 然后检查这条线能不与其他bbox的左边界相交或者重合
         if any(
-            [bbox[X0_IDX] <= right_split_line_x1 <= bbox[X1_IDX] for bbox in all_bboxes]
-        ):
+            bbox[X0_IDX] <= right_split_line_x1 <= bbox[X1_IDX] for bbox in all_bboxes):
             # 垂直切分线与某些box发生相交，说明无法完全垂直方向切分。
             break
         else:  # 说明成功分割出一列
             # 找到左侧边界最靠左的bbox作为layout的x0
             layout_x0 = min(
-                [bbox[X0_IDX] for bbox in left_edge_bboxes]
-            )  # 这里主要是为了画出来有一定间距
+                bbox[X0_IDX] for bbox in left_edge_bboxes)  # 这里主要是为了画出来有一定间距
             v_blocks.append(
                 [
                     layout_x0,
@@ -309,11 +303,10 @@ def _vertical_align_split_v1(bboxes: list, boundary: tuple) -> list:
         right_edge_bboxes = get_right_edge_bboxes(all_bboxes)
         if len(right_edge_bboxes) == 0:
             break
-        left_split_line_x0 = min([bbox[X0_IDX] for bbox in right_edge_bboxes]) - 1
+        left_split_line_x0 = min(bbox[X0_IDX] for bbox in right_edge_bboxes) - 1
         # 然后检查这条线能不与其他bbox的左边界相交或者重合
         if any(
-            [bbox[X0_IDX] <= left_split_line_x0 <= bbox[X1_IDX] for bbox in all_bboxes]
-        ):
+            bbox[X0_IDX] <= left_split_line_x0 <= bbox[X1_IDX] for bbox in all_bboxes):
             # 这里是余下的
             unsplited_block.append(
                 [
@@ -327,7 +320,7 @@ def _vertical_align_split_v1(bboxes: list, boundary: tuple) -> list:
             break
         else:
             # 找到右侧边界最靠右的bbox作为layout的x1
-            layout_x1 = max([bbox[X1_IDX] for bbox in right_edge_bboxes])
+            layout_x1 = max(bbox[X1_IDX] for bbox in right_edge_bboxes)
             v_blocks.append(
                 [
                     left_split_line_x0,
@@ -418,7 +411,7 @@ def _vertical_align_split_v2(bboxes: list, boundary: tuple) -> list:
                 )
 
         # 检查相交
-        if any([bbox[X0_IDX] <= w_x1 + 1 <= bbox[X1_IDX] for bbox in all_bboxes]):
+        if any(bbox[X0_IDX] <= w_x1 + 1 <= bbox[X1_IDX] for bbox in all_bboxes):
             for b in all_bboxes:
                 if b[X0_IDX] <= w_x1 + 1 <= b[X1_IDX]:
                     bad_boxes.append([b[X0_IDX], b[Y0_IDX], b[X1_IDX], b[Y1_IDX]])
@@ -483,7 +476,7 @@ def _vertical_align_split_v2(bboxes: list, boundary: tuple) -> list:
                 )
 
         # 检查是否与其他box相交， 垂直切分线与某些box发生相交，说明无法完全垂直方向切分。
-        if any([bbox[X0_IDX] <= w_x0 - 1 <= bbox[X1_IDX] for bbox in all_bboxes]):
+        if any(bbox[X0_IDX] <= w_x0 - 1 <= bbox[X1_IDX] for bbox in all_bboxes):
             unsplited_block.append(
                 [
                     new_boundary[0],
@@ -579,12 +572,9 @@ def _vertical_split(bboxes: list, boundary: tuple) -> list:
             top_nearest_bbox is None
             and bottom_nearest_bbox is None
             and not any(
-                [
-                    b[X0_IDX] < bbox[X1_IDX] < b[X1_IDX]
+                b[X0_IDX] < bbox[X1_IDX] < b[X1_IDX]
                     or b[X0_IDX] < bbox[X0_IDX] < b[X1_IDX]
-                    for b in all_bboxes
-                ]
-            )
+                    for b in all_bboxes)
         ):  # 独占一列, 且不和其他重叠
             bbox[X0_EXT_IDX] = bbox[X0_IDX]
             bbox[Y0_EXT_IDX] = bound_y0
@@ -640,9 +630,9 @@ def _vertical_split(bboxes: list, boundary: tuple) -> list:
         if len(bboxes_in_block) == 0:
             continue
         x0, y0, x1, y1 = (
-            min([bbox[X0_IDX] for bbox in bboxes_in_block]),
+            min(bbox[X0_IDX] for bbox in bboxes_in_block),
             bound_y0,
-            max([bbox[X1_IDX] for bbox in bboxes_in_block]),
+            max(bbox[X1_IDX] for bbox in bboxes_in_block),
             bound_y1,
         )
         v_layouts.append(
@@ -866,7 +856,7 @@ def sort_with_layout(bboxes: list, page_width, page_height) -> (list, list):
     layout_bboxes, _ = get_bboxes_layout(
         new_bboxes, tuple([0, 0, page_width, page_height]), 0
     )
-    if any([lay['layout_label'] == LAYOUT_UNPROC for lay in layout_bboxes]):
+    if any(lay['layout_label'] == LAYOUT_UNPROC for lay in layout_bboxes):
         logger.warning('drop this pdf, reason: 复杂版面')
         return None, None
 

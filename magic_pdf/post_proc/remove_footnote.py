@@ -124,7 +124,7 @@ def remove_footnote_text(raw_text_block, footnote_bboxes):
     for block in raw_text_block:
         text_bbox = block['bbox']
         # TODO 更严谨点在line级别做
-        if any([_is_in_or_part_overlap(text_bbox, footnote_bbox) for footnote_bbox in footnote_bboxes]):
+        if any(_is_in_or_part_overlap(text_bbox, footnote_bbox) for footnote_bbox in footnote_bboxes):
             # if any([text_bbox[3]>=footnote_bbox[1] for footnote_bbox in footnote_bboxes]):
             block['tag'] = 'footnote'
             footnote_text_blocks.append(block)
@@ -144,7 +144,7 @@ def remove_footnote_image(image_blocks, footnote_bboxes):
     """
     footnote_imgs_blocks = []
     for image_block in image_blocks:
-        if any([_is_in(image_block['bbox'], footnote_bbox) for footnote_bbox in footnote_bboxes]):
+        if any(_is_in(image_block['bbox'], footnote_bbox) for footnote_bbox in footnote_bboxes):
             footnote_imgs_blocks.append(image_block)
 
     for footnote_imgs_block in footnote_imgs_blocks:
