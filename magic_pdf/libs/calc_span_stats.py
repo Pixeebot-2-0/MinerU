@@ -120,10 +120,11 @@ def __find_pdf_dic_files(
     tgt_base_dir_name="tmp",
     unittest_dir_name="unittest",
     md_dir_name="md",
-    book_names=[
-        "scihub",
-    ],  # other possible values: "zlib", "arxiv" and so on
+    book_names=None,  # other possible values: "zlib", "arxiv" and so on
 ):
+    book_names = [
+            "scihub",
+        ] if book_names is None else book_names
     pdf_dict_files = []
 
     curr_dir = os.path.dirname(__file__)

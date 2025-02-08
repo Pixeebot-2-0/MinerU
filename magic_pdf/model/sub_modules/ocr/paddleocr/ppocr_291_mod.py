@@ -25,7 +25,7 @@ class ModifiedPaddleOCR(PaddleOCR):
         bin=False,
         inv=False,
         alpha_color=(255, 255, 255),
-        slice={},
+        slice=None,
         mfd_res=None,
     ):
         """
@@ -56,6 +56,7 @@ class ModifiedPaddleOCR(PaddleOCR):
             - For PDF files, if the input is a list of images and the page_num is specified, only the first page_num images will be processed.
             - The preprocess_image function is used to preprocess the input image by applying alpha color replacement, inversion, and binarization if specified.
         """
+        slice = {} if slice is None else slice
         assert isinstance(img, (np.ndarray, list, str, bytes))
         if isinstance(img, list) and det == True:
             logger.error("When input a list of images, det must be false")
@@ -122,7 +123,8 @@ class ModifiedPaddleOCR(PaddleOCR):
                 return cls_res
             return ocr_res
 
-    def __call__(self, img, cls=True, slice={}, mfd_res=None):
+    def __call__(self, img, cls=True, slice=None, mfd_res=None):
+        slice = {} if slice is None else slice
         time_dict = {"det": 0, "rec": 0, "cls": 0, "all": 0}
 
         if img is None:

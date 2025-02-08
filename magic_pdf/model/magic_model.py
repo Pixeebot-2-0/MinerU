@@ -14,6 +14,7 @@ from magic_pdf.libs.ocr_content_type import CategoryId, ContentType
 from magic_pdf.pre_proc.remove_bbox_overlap import _remove_overlap_between_bbox
 from magic_pdf.rw.AbsReaderWriter import AbsReaderWriter
 from magic_pdf.rw.DiskReaderWriter import DiskReaderWriter
+from typing import Optional
 
 CAPATION_OVERLAP_AREA_RATIO = 0.6
 MERGE_BOX_OVERLAP_AREA_RATIO = 1.1
@@ -1022,8 +1023,9 @@ class MagicModel:
         return page_w, page_h
 
     def __get_blocks_by_type(
-        self, type: int, page_no: int, extra_col: list[str] = []
+        self, type: int, page_no: int, extra_col: Optional[list[str]] = None
     ) -> list:
+        extra_col = [] if extra_col is None else extra_col
         blocks = []
         for page_dict in self.__model_list:
             layout_dets = page_dict.get('layout_dets', [])

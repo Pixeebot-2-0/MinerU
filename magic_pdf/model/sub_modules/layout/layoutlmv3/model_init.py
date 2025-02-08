@@ -126,7 +126,8 @@ class Layoutlmv3_Predictor(object):
         MetadataCatalog.get(cfg.DATASETS.TRAIN[0]).thing_classes = self.mapping
         self.predictor = DefaultPredictor(cfg)
 
-    def __call__(self, image, ignore_catids=[]):
+    def __call__(self, image, ignore_catids=None):
+        ignore_catids = [] if ignore_catids is None else ignore_catids
         # page_layout_result = {
         #     "layout_dets": []
         # }

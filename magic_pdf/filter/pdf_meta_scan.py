@@ -27,7 +27,8 @@ def calculate_max_image_area_per_page(result: list, page_width_pts, page_height_
     return max_image_area_per_page
 
 
-def process_image(page, junk_img_bojids=[]):
+def process_image(page, junk_img_bojids=None):
+    junk_img_bojids = [] if junk_img_bojids is None else junk_img_bojids
     page_result = []  # 存每个页面里的多张图四元组信息
     items = page.get_images()
     dedup = set()
