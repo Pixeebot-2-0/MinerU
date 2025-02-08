@@ -244,7 +244,8 @@ class PatchEmbed(nn.Module):
     """ Image to Patch Embedding
     """
 
-    def __init__(self, img_size=[224, 224], patch_size=16, in_chans=3, embed_dim=768):
+    def __init__(self, img_size=None, patch_size=16, in_chans=3, embed_dim=768):
+        img_size = [224, 224] if img_size is None else img_size
         super().__init__()
         img_size = to_2tuple(img_size)
         patch_size = to_2tuple(patch_size)
@@ -282,7 +283,8 @@ class HybridEmbed(nn.Module):
     Extract feature map from CNN, flatten, project to embedding dim.
     """
 
-    def __init__(self, backbone, img_size=[224, 224], feature_size=None, in_chans=3, embed_dim=768):
+    def __init__(self, backbone, img_size=None, feature_size=None, in_chans=3, embed_dim=768):
+        img_size = [224, 224] if img_size is None else img_size
         super().__init__()
         assert isinstance(backbone, nn.Module)
         img_size = to_2tuple(img_size)
@@ -400,7 +402,7 @@ class BEiT(nn.Module):
     """
 
     def __init__(self,
-                 img_size=[224, 224],
+                 img_size=None,
                  patch_size=16,
                  in_chans=3,
                  num_classes=80,
@@ -423,6 +425,7 @@ class BEiT(nn.Module):
                  pretrained=None,
                  out_features=None,
                  ):
+        img_size = [224, 224] if img_size is None else img_size
 
         super(BEiT, self).__init__()
 

@@ -54,13 +54,14 @@ def check_rect_isLine(L: float, U: float, R: float, D: float) -> bool:
 
 
 
-def parse_images(page_ID: int, page: fitz.Page, json_from_DocXchain_obj: dict, junk_img_bojids=[]):
+def parse_images(page_ID: int, page: fitz.Page, json_from_DocXchain_obj: dict, junk_img_bojids=None):
     """
     :param page_ID: int类型，当前page在当前pdf文档中是第page_D页。
     :param page :fitz读取的当前页的内容
     :param res_dir_path: str类型，是每一个pdf文档，在当前.py文件的目录下生成一个与pdf文档同名的文件夹，res_dir_path就是文件夹的dir
     :param json_from_DocXchain_obj: dict类型，把pdf文档送入DocXChain模型中后，提取bbox，结果保存到pdf文档同名文件夹下的 page_ID.json文件中了。json_from_DocXchain_obj就是打开后的dict
     """
+    junk_img_bojids = [] if junk_img_bojids is None else junk_img_bojids
     #### 通过fitz获取page信息
     ## 超越边界
     DPI = 72  # use this resolution
