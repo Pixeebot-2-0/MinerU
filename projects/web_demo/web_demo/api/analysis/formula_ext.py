@@ -48,7 +48,7 @@ class CustomPEKModel:
         # 构建 model_configs.yaml 文件的完整路径
         config_path = os.path.join(model_config_dir, 'model_configs.yaml')
         with open(config_path, "r", encoding='utf-8') as f:
-            configs = yaml.load(f, Loader=yaml.FullLoader)
+            configs = yaml.load(f, Loader=yaml.SafeLoader)
 
         # 初始化公式检测模型
         self.mfd_model = mfd_model_init(str(os.path.join(models_dir, configs["weights"]["mfd"])))
