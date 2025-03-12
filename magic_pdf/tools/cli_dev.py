@@ -71,7 +71,7 @@ def jsonl(jsonl, method, output_dir):
         jso = json_parse.loads(read_s3_path(jsonl).decode('utf-8'))
     else:
         with open(jsonl) as f:
-            jso = json_parse.loads(f.readline())
+            jso = json_parse.loads(f.readline(5_000_000))
     os.makedirs(output_dir, exist_ok=True)
     s3_file_path = jso.get('file_location')
     if s3_file_path is None:
