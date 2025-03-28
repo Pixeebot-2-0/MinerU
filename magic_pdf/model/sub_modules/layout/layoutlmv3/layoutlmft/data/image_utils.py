@@ -1,13 +1,13 @@
 import torchvision.transforms.functional as F
 import warnings
 import math
-import random
 import numpy as np
 from PIL import Image
 import torch
 
 from detectron2.data.detection_utils import read_image
 from detectron2.data.transforms import ResizeTransform, TransformList
+import secrets
 
 def normalize_bbox(bbox, size):
     return [
@@ -218,16 +218,16 @@ class RandomResizedCropAndInterpolationWithTwoPic:
         area = img.size[0] * img.size[1]
 
         for attempt in range(10):
-            target_area = random.uniform(*scale) * area
+            target_area = secrets.SystemRandom().uniform(*scale) * area
             log_ratio = (math.log(ratio[0]), math.log(ratio[1]))
-            aspect_ratio = math.exp(random.uniform(*log_ratio))
+            aspect_ratio = math.exp(secrets.SystemRandom().uniform(*log_ratio))
 
             w = int(round(math.sqrt(target_area * aspect_ratio)))
             h = int(round(math.sqrt(target_area / aspect_ratio)))
 
             if w <= img.size[0] and h <= img.size[1]:
-                i = random.randint(0, img.size[1] - h)
-                j = random.randint(0, img.size[0] - w)
+                i = secrets.SystemRandom().randint(0, img.size[1] - h)
+                j = secrets.SystemRandom().randint(0, img.size[0] - w)
                 return i, j, h, w
 
         # Fallback to central crop

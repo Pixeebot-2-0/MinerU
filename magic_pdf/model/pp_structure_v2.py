@@ -1,6 +1,6 @@
-import random
 
 from loguru import logger
+import secrets
 
 try:
     from paddleocr import PPStructure
@@ -71,7 +71,7 @@ class CustomPaddleModel:
 
             # 兼容不输出score的paddleocr版本
             if line.get("score") is None:
-                line["score"] = 0.5 + random.random() * 0.5
+                line["score"] = 0.5 + secrets.SystemRandom().random() * 0.5
 
             res = line.pop("res", None)
             if res is not None and len(res) > 0:
