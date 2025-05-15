@@ -754,8 +754,8 @@ class BlockStatisticsCalculator:
 
         avg_font_size = sum(block_font_sizes) / len(block_font_sizes) if block_font_sizes else None
 
-        avg_dir_horizontal = sum([dir[0] for dir in block_directions]) / len(block_directions) if block_directions else 0
-        avg_dir_vertical = sum([dir[1] for dir in block_directions]) / len(block_directions) if block_directions else 0
+        avg_dir_horizontal = sum(dir[0] for dir in block_directions) / len(block_directions) if block_directions else 0
+        avg_dir_vertical = sum(dir[1] for dir in block_directions) / len(block_directions) if block_directions else 0
 
         median_font_size = float(np.median(block_font_sizes)) if block_font_sizes else None
 
@@ -1883,18 +1883,18 @@ class TitleProcessor:
                         for para_block in para_blocks:
                             new_block = self._detect_title(para_block)
                             new_para_blocks.append(new_block)
-                            num_titles += sum([line.get("is_title", 0) for line in new_block["lines"]])
+                            num_titles += sum(line.get("is_title", 0) for line in new_block["lines"])
                     else:  # All blocks are single line blocks.
                         for para_block in para_blocks:
                             new_para_blocks.append(para_block)
-                            num_titles += sum([line.get("is_title", 0) for line in para_block["lines"]])
+                            num_titles += sum(line.get("is_title", 0) for line in para_block["lines"])
                     para_blocks = new_para_blocks
 
                 blocks["para_blocks"] = para_blocks
 
                 for para_block in para_blocks:
                     all_titles = all(safe_get(line, "is_title", False) for line in para_block["lines"])
-                    para_text_len = sum([len(line["text"]) for line in para_block["lines"]])
+                    para_text_len = sum(len(line["text"]) for line in para_block["lines"])
                     if (
                         all_titles and para_text_len < 200
                     ):  # total length of the paragraph is less than 200, more than this should not be a title

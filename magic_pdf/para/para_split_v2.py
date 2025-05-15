@@ -249,15 +249,15 @@ def __valign_lines(blocks, layout_bboxes):
         # 由于修改了block里的line长度，现在需要重新计算block的bbox
         for block in blocks_in_layoutbox:
             if len(block["lines"]) > 0:
-                block['bbox_fs'] = [min([line['bbox'][0] for line in block['lines']]),
-                                    min([line['bbox'][1] for line in block['lines']]),
-                                    max([line['bbox'][2] for line in block['lines']]),
-                                    max([line['bbox'][3] for line in block['lines']])]
+                block['bbox_fs'] = [min(line['bbox'][0] for line in block['lines']),
+                                    min(line['bbox'][1] for line in block['lines']),
+                                    max(line['bbox'][2] for line in block['lines']),
+                                    max(line['bbox'][3] for line in block['lines'])]
         """新计算layout的bbox，因为block的bbox变了。"""
-        layout_x0 = min([block['bbox_fs'][0] for block in blocks_in_layoutbox])
-        layout_y0 = min([block['bbox_fs'][1] for block in blocks_in_layoutbox])
-        layout_x1 = max([block['bbox_fs'][2] for block in blocks_in_layoutbox])
-        layout_y1 = max([block['bbox_fs'][3] for block in blocks_in_layoutbox])
+        layout_x0 = min(block['bbox_fs'][0] for block in blocks_in_layoutbox)
+        layout_y0 = min(block['bbox_fs'][1] for block in blocks_in_layoutbox)
+        layout_x1 = max(block['bbox_fs'][2] for block in blocks_in_layoutbox)
+        layout_y1 = max(block['bbox_fs'][3] for block in blocks_in_layoutbox)
         new_layout_bboxes.append([layout_x0, layout_y0, layout_x1, layout_y1])
 
     return new_layout_bboxes
@@ -688,9 +688,9 @@ def __connect_middle_align_text(page_paras, new_layout_bbox, page_num, lang):
                     all_left_x0 = [block["lines"][0]['bbox'][0] for block in layout_para[start:end + 1]]
                     all_right_x1 = [block["lines"][0]['bbox'][2] for block in layout_para[start:end + 1]]
                     layout_center = (layout_box[0] + layout_box[2]) / 2
-                    if all([x0 < layout_center < x1 for x0, x1 in zip(all_left_x0, all_right_x1)]) \
-                            and not all([x0 == layout_box[0] for x0 in all_left_x0]) \
-                            and not all([x1 == layout_box[2] for x1 in all_right_x1]):
+                    if all(x0 < layout_center < x1 for x0, x1 in zip(all_left_x0, all_right_x1)) \
+                            and not all(x0 == layout_box[0] for x0 in all_left_x0) \
+                            and not all(x1 == layout_box[2] for x1 in all_right_x1):
                         merge_para = [block["lines"][0] for block in layout_para[start:end + 1]]
                         para_text = ''.join([__get_span_text(span) for line in merge_para for span in line['spans']])
                         if debug_able:
