@@ -23,7 +23,7 @@ class ConfigMap(dict):
 
 
 with open(str(config_path), mode='r', encoding='utf-8') as fd:
-    data = yaml.load(fd, Loader=yaml.FullLoader)
+    data = yaml.load(fd, Loader=yaml.SafeLoader)
     _config = data.get(data.get("CurrentConfig", "DevelopmentConfig"))
 config = ConfigMap()
 for k, v in _config.items():

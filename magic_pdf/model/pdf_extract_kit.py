@@ -42,7 +42,7 @@ class CustomPEKModel:
         # 构建 model_configs.yaml 文件的完整路径
         config_path = os.path.join(model_config_dir, 'model_configs.yaml')
         with open(config_path, "r", encoding='utf-8') as f:
-            self.configs = yaml.load(f, Loader=yaml.FullLoader)
+            self.configs = yaml.load(f, Loader=yaml.SafeLoader)
         # 初始化解析配置
 
         # layout config
